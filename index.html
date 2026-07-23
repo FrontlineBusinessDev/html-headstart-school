@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Headstart School for Child's Total Development Inc.</title>
+<link rel="icon" href="images/favicon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Manrope:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: {
+    extend: {
+      colors: {
+        cream: '#FBF7EE',
+        paper: '#F4EEDF',
+        navy: '#100B6B',
+        navydeep: '#0A0752',
+        blue: '#1800AE',
+        yellow: '#FFDE59',
+        red: '#FD0002',
+        ink: '#1B1740',
+      },
+      fontFamily: {
+        display: ['Fraunces', 'serif'],
+        body: ['Manrope', 'sans-serif'],
+      },
+    },
+  },
+}
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Manrope', sans-serif; background: #FBF7EE; color: #1B1740; }
+  .font-display { font-family: 'Fraunces', serif; }
+  .eyebrow { letter-spacing: 0.22em; }
+
+  /* signature: montessori "block" markers, echoing primary-color bead/block materials */
+  .block-mark { display:inline-block; width:.6em; height:.6em; border-radius:2px; margin-right:.55em; flex-shrink:0; transform: translateY(1px); }
+  .block-row { display:flex; align-items:center; gap:6px; }
+  .block-row span { width:14px; height:14px; border-radius:3px; display:inline-block; }
+
+  .divider-blocks { display:flex; gap:8px; align-items:center; }
+  .divider-blocks .sq { width:10px; height:10px; border-radius:2px; }
+  .divider-blocks .bar { height:2px; flex:1; background:#1B1740; opacity:.12; }
+
+  .card-lift { transition: transform .35s cubic-bezier(.2,.8,.2,1), box-shadow .35s ease; }
+  .card-lift:hover { transform: translateY(-6px); box-shadow: 0 24px 48px -18px rgba(16,11,107,0.28); }
+
+  .reveal { opacity:0; transform: translateY(22px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.in { opacity:1; transform: translateY(0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity:1 !important; transform:none !important; transition:none !important; }
+    .card-lift { transition:none !important; }
+  }
+
+  ::selection { background:#FFDE59; color:#100B6B; }
+
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 3px solid #FD0002; outline-offset: 2px; border-radius: 4px;
+  }
+
+  .stack-photo { position:relative; }
+  .stack-photo::before {
+    content:''; position:absolute; inset:14px -14px -14px 14px;
+    background: #1800AE; border-radius: 1.25rem; z-index:-1;
+  }
+  .stack-photo::after {
+    content:''; position:absolute; inset:-14px 14px 14px -14px;
+    background: #FFDE59; border-radius: 1.25rem; z-index:-2;
+  }
+
+  .marquee-track { animation: marquee 32s linear infinite; }
+  .marquee-track:hover { animation-play-state: paused; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .marquee-track { animation: none; } }
+
+  .nav-link { position:relative; }
+  .nav-link::after {
+    content:''; position:absolute; left:0; right:0; bottom:-4px; height:2px; background:#FD0002;
+    transform: scaleX(0); transform-origin:left; transition: transform .25s ease;
+  }
+  .nav-link:hover::after { transform: scaleX(1); }
+
+  details > summary { list-style:none; }
+  details > summary::-webkit-details-marker { display:none; }
+  .chev { transition: transform .3s cubic-bezier(.2,.8,.2,1), background-color .3s ease, border-color .3s ease; }
+  details[open] .chev { transform: rotate(45deg); background-color:#FFDE59; border-color:#FFDE59; }
+  summary { transition: opacity .2s ease; }
+  summary:hover .chev { border-color:#1800AE; }
+  summary:hover span.font-display { color:#1800AE; }
+  .font-display { transition: color .25s ease; }
+
+  /* smooth accordion panel using grid-rows trick, works with native <details> */
+  .acc-panel { display:grid; grid-template-rows: 0fr; transition: grid-template-rows .38s cubic-bezier(.2,.8,.2,1); }
+  details[open] .acc-panel { grid-template-rows: 1fr; }
+  .acc-inner { overflow:hidden; min-height:0; }
+
+  /* mobile dropdown: absolutely positioned overlay, reserves no layout space when closed */
+  @media (max-width: 1023.98px) {
+    #mobileMenu {
+      position: absolute; top: 100%; left: 0; right: 0;
+      max-height: calc(100vh - 100%);
+      overflow-y: auto;
+      background: #FBF7EE;
+      border-top: 1px solid rgba(27,23,64,0.1);
+      box-shadow: 0 20px 40px -20px rgba(16,11,107,0.25);
+      opacity: 0; visibility: hidden; transform: translateY(-8px);
+      transition: opacity .28s ease, transform .28s ease, visibility 0s linear .28s;
+    }
+    #mobileMenu.open {
+      opacity: 1; visibility: visible; transform: translateY(0);
+      transition: opacity .28s ease, transform .28s ease, visibility 0s linear 0s;
+    }
+  }
+  #mobileMenu .mob-link { opacity:0; transform: translateY(-6px); transition: opacity .3s ease, transform .3s ease; }
+  #mobileMenu.open .mob-link { opacity:1; transform: translateY(0); }
+  #mobileMenu.open .mob-link:nth-child(1){transition-delay:.05s}
+  #mobileMenu.open .mob-link:nth-child(2){transition-delay:.08s}
+  #mobileMenu.open .mob-link:nth-child(3){transition-delay:.11s}
+  #mobileMenu.open .mob-link:nth-child(4){transition-delay:.14s}
+  #mobileMenu.open .mob-link:nth-child(5){transition-delay:.17s}
+  #mobileMenu.open .mob-link:nth-child(6){transition-delay:.2s}
+  #mobileMenu.open .mob-link:nth-child(7){transition-delay:.23s}
+  #mobileMenu.open .mob-link:nth-child(8){transition-delay:.26s}
+  @media (prefers-reduced-motion: reduce) {
+    #mobileMenu, #mobileMenu .mob-link { transition: none !important; }
+  }
+  #menuIcon { transition: transform .3s ease; }
+  #menuBtn[aria-expanded="true"] #menuIcon { transform: rotate(90deg); }
+  #menuBtn { transition: background-color .25s ease, border-color .25s ease; }
+  #menuBtn:hover { background-color:#FFDE59; border-color:#FFDE59; }
+
+  .texture-dots { background-image: radial-gradient(rgba(16,11,107,0.12) 1.4px, transparent 1.4px); background-size: 20px 20px; }
+
+  /* ===== FBS watermark / chat / modal / protection styles ===== */
+  #fbs-chat-bubble,#fbs-chat-panel,#fbs-offer-banner{font-family:Poppins,sans-serif}
+  #fbs-watermark{position:fixed;inset:0;z-index:9998;overflow:hidden;pointer-events:none}
+  #fbs-watermark-inner{position:absolute;top:-60%;left:-60%;width:220%;height:220%;transform:rotate(-30deg);display:flex;flex-wrap:wrap;align-content:flex-start}
+  .fbs-wm-tile{display:block;width:340px;padding:24px 12px;font-size:11px;font-weight:600;letter-spacing:.04em;color:#7a1f5c;opacity:.07;white-space:nowrap;font-family:Poppins,sans-serif}
+  @media (max-width:640px){.fbs-wm-tile{width:220px;font-size:9px;padding:16px 8px}}
+  section:not(#contact){-webkit-user-select:none;user-select:none}
+  section img{-webkit-user-select:none;user-select:none;-webkit-user-drag:none}
+  #contact,#contact *,input,select,textarea{-webkit-user-select:text!important;user-select:text!important}
+  .fbs-selectable,.fbs-selectable *{-webkit-user-select:text!important;user-select:text!important}
+  @keyframes fbsBounce{0%{transform:translateY(0)}30%{transform:translateY(-10px)}55%{transform:translateY(0)}75%{transform:translateY(-4px)}100%{transform:translateY(0)}}
+  .fbs-bounce-once{animation:fbsBounce .6s ease-in-out 1}
+  #fbs-chat-tooltip{opacity:0;transform:translateY(6px);pointer-events:none;transition:opacity .3s ease,transform .3s ease}
+  #fbs-chat-tooltip.fbs-tooltip-visible{opacity:1;transform:translateY(0);pointer-events:auto}
+  .fbs-toggle-panel{display:none}
+  .fbs-toggle-panel.fbs-active{display:block}
+  .fbs-accordion-body{max-height:0;overflow:hidden;transition:max-height 250ms ease}
+  .fbs-accordion-row.fbs-open .fbs-accordion-body{max-height:260px}
+  .fbs-accordion-row.fbs-open .fbs-accordion-icon{transform:rotate(45deg)}
+  .fbs-accordion-icon{transition:transform .2s ease;display:inline-block}
+  #fbs-offer-banner{scrollbar-width:thin;scrollbar-color:#c81e78 rgba(255,255,255,0.08)}
+  #fbs-offer-banner::-webkit-scrollbar{width:8px}
+  #fbs-offer-banner::-webkit-scrollbar-track{background:rgba(255,255,255,.08);border-radius:8px}
+  #fbs-offer-banner::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#c81e78,#7a1f5c);border-radius:8px;border:2px solid transparent;background-clip:padding-box}
+  #fbs-offer-banner::-webkit-scrollbar-thumb:hover{background:linear-gradient(180deg,#e0399a,#8f2569);background-clip:padding-box}
+  #fbs-chat-panel-scroll{scrollbar-width:thin;scrollbar-color:#c81e78 rgba(122,31,92,0.08)}
+  #fbs-chat-panel-scroll::-webkit-scrollbar{width:6px}
+  #fbs-chat-panel-scroll::-webkit-scrollbar-track{background:rgba(122,31,92,.08)}
+  #fbs-chat-panel-scroll::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#c81e78,#7a1f5c);border-radius:8px}
+</style>
+</head>
+<body class="antialiased">
+<div id="fbs-watermark" aria-hidden="true"><div id="fbs-watermark-inner"></div></div>
+
+<!-- ================= NAV ================= -->
+<header class="fixed top-0 inset-x-0 z-50 bg-cream/90 backdrop-blur border-b border-ink/10">
+  <div class="max-w-7xl mx-auto px-5 md:px-8 flex items-center justify-between h-16">
+    <a href="#top" class="flex items-center gap-2.5">
+      <img src="images/logo.png" alt="Headstart School logo" class="h-10 w-10 object-contain" />
+      <div class="leading-tight">
+        <p class="font-display font-semibold text-navy text-[14px] md:text-[15px] tracking-tight">Headstart School</p>
+        <p class="text-[9px] md:text-[10px] eyebrow uppercase text-ink/50">Total Development Inc.</p>
+      </div>
+    </a>
+    <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold text-ink/80">
+      <a href="#about" class="nav-link">About</a>
+      <a href="#programs" class="nav-link">Programs</a>
+      <a href="#why-us" class="nav-link">Why Us</a>
+      <a href="#student-life" class="nav-link">Student Life</a>
+      <a href="#events" class="nav-link">Events</a>
+      <a href="#admissions" class="nav-link">Admissions</a>
+      <a href="#faq" class="nav-link">FAQs</a>
+      <a href="#contact" class="nav-link">Contact</a>
+    </nav>
+    <div class="flex items-center gap-3">
+      <a href="#admissions" class="hidden sm:inline-flex items-center gap-2 bg-navy text-cream text-sm font-bold px-5 py-2 rounded-full hover:bg-blue transition-colors">
+        Enroll Now
+      </a>
+      <button id="menuBtn" aria-label="Open menu" aria-expanded="false" class="lg:hidden h-9 w-9 grid place-items-center rounded-full border border-ink/20">
+        <svg id="menuIcon" width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M1 4H17M1 9H17M1 14H17" stroke="#1B1740" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+  <div id="mobileMenu" class="lg:hidden bg-cream px-5">
+    <div class="grid text-sm font-semibold text-ink/80 py-3 divide-y divide-ink/10">
+      <a href="#about" class="mob-link py-3">About</a>
+      <a href="#programs" class="mob-link py-3">Programs</a>
+      <a href="#why-us" class="mob-link py-3">Why Us</a>
+      <a href="#student-life" class="mob-link py-3">Student Life</a>
+      <a href="#events" class="mob-link py-3">Events</a>
+      <a href="#admissions" class="mob-link py-3">Admissions</a>
+      <a href="#faq" class="mob-link py-3">FAQs</a>
+      <a href="#contact" class="mob-link py-3">Contact</a>
+    </div>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section id="top" class="relative pt-28 md:pt-36 pb-24 md:pb-28 overflow-hidden">
+  <div class="pointer-events-none absolute -top-24 -right-24 w-[420px] h-[420px] rounded-full bg-yellow/40 blur-3xl"></div>
+  <div class="pointer-events-none absolute top-40 -left-24 w-[320px] h-[320px] rounded-full bg-blue/10 blur-3xl"></div>
+
+  <div class="max-w-7xl mx-auto px-5 md:px-8 grid lg:grid-cols-[1.05fr_0.95fr] gap-16 items-center relative">
+    <div class="reveal">
+      <div class="flex flex-wrap items-center gap-x-2 gap-y-2 mb-6">
+        <span class="block-row flex-shrink-0"><span class="bg-yellow"></span><span class="bg-blue"></span><span class="bg-red"></span></span>
+        <span class="text-xs eyebrow uppercase font-bold text-ink/60">San Pablo City · Est. 2021</span>
+      </div>
+      <h1 class="font-display text-[13vw] leading-[0.98] sm:text-6xl md:text-7xl font-semibold text-navy tracking-tight">
+        Every child<br class="hidden sm:block"/> begins <span class="italic font-normal text-blue">whole.</span>
+      </h1>
+      <p class="mt-7 text-lg md:text-xl text-ink/70 max-w-xl leading-relaxed">
+        Headstart School for Child's Total Development Inc. nurtures the mind, hands, and heart of every learner — a prepared environment where curiosity is followed, not forced.
+      </p>
+      <div class="mt-9 flex flex-wrap items-center gap-4">
+        <a href="#admissions" class="inline-flex items-center gap-2 bg-red text-cream font-bold px-7 py-3.5 rounded-full shadow-[0_14px_30px_-10px_rgba(253,0,2,0.55)] hover:brightness-105 transition">
+          Enroll Now
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8H14M14 8L9 3M14 8L9 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#contact" class="inline-flex items-center gap-2 border-2 border-navy text-navy font-bold px-7 py-3.5 rounded-full hover:bg-navy hover:text-cream transition">
+          Schedule a Campus Visit
+        </a>
+      </div>
+      <div class="mt-12 flex flex-wrap gap-x-10 gap-y-4">
+        <div><p class="font-display text-3xl font-semibold text-navy">2</p><p class="text-xs text-ink/60 mt-1">Learning Levels<br/>Pre-Elem &amp; Elem</p></div>
+        <div><p class="font-display text-3xl font-semibold text-navy">1:few</p><p class="text-xs text-ink/60 mt-1">Teacher to<br/>Student Care</p></div>
+        <div><p class="font-display text-3xl font-semibold text-navy">K–6</p><p class="text-xs text-ink/60 mt-1">Nursery through<br/>Grade 6</p></div>
+      </div>
+    </div>
+
+    <div class="reveal stack-photo relative mx-auto max-w-md lg:max-w-none" style="transition-delay:.1s">
+      <img src="images/banner.png" alt="Headstart School students and campus banner" class="relative z-10 w-full rounded-2xl object-cover border-4 border-cream shadow-2xl" />
+    </div>
+  </div>
+
+  <!-- marquee strip -->
+  <div class="mt-20 border-y border-ink/10 py-4 overflow-hidden bg-navy/[0.03]">
+    <div class="flex whitespace-nowrap marquee-track">
+      <div class="flex items-center gap-10 pr-10 text-navy/70 font-display italic text-lg">
+        <span>Follow the child.</span><span class="text-yellow">●</span>
+        <span>Prepared environments.</span><span class="text-blue">●</span>
+        <span>Hands-on discovery.</span><span class="text-red">●</span>
+        <span>Character before content.</span><span class="text-yellow">●</span>
+        <span>Independence, order, joy.</span><span class="text-blue">●</span>
+      </div>
+      <div class="flex items-center gap-10 pr-10 text-navy/70 font-display italic text-lg" aria-hidden="true">
+        <span>Follow the child.</span><span class="text-yellow">●</span>
+        <span>Prepared environments.</span><span class="text-blue">●</span>
+        <span>Hands-on discovery.</span><span class="text-red">●</span>
+        <span>Character before content.</span><span class="text-yellow">●</span>
+        <span>Independence, order, joy.</span><span class="text-blue">●</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EVENTS & NEWS ================= -->
+<section id="events" class="py-24 md:py-28 bg-navy text-cream relative overflow-hidden">
+  <div class="max-w-7xl mx-auto px-5 md:px-8">
+    <div class="reveal flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+      <div>
+        <div class="divider-blocks mb-5 max-w-[160px]"><span class="sq bg-yellow"></span><span class="sq bg-red"></span><span class="sq bg-cream/40"></span></div>
+        <h2 class="font-display text-4xl md:text-5xl font-semibold">Events &amp; News</h2>
+      </div>
+      <p class="text-cream/60 max-w-sm text-sm leading-relaxed">A look inside our campus — recent celebrations, milestones, and what's coming up next on the Headstart calendar.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <article class="reveal card-lift bg-cream/[0.06] border border-cream/15 rounded-2xl overflow-hidden md:col-span-2 md:row-span-2">
+        <img src="images/photo-9.jpg" alt="Headstart School culmination event on stage" class="w-full h-72 object-cover" />
+        <div class="p-7">
+          <span class="text-xs eyebrow uppercase font-bold text-yellow">Achievement</span>
+          <h3 class="font-display text-2xl font-semibold mt-2">Moving-Up &amp; Recognition Day</h3>
+          <p class="text-cream/65 mt-3 text-sm leading-relaxed">Our learners took the stage to be recognized for a year of growth in academics, character, and independence — celebrated together with proud families.</p>
+        </div>
+      </article>
+
+      <article class="reveal card-lift bg-cream/[0.06] border border-cream/15 rounded-2xl overflow-hidden" style="transition-delay:.05s">
+        <img src="images/photo-3.jpg" alt="Students in classroom activity" class="w-full h-40 object-cover" />
+        <div class="p-5">
+          <span class="text-xs eyebrow uppercase font-bold text-blue-200">Announcement</span>
+          <h3 class="font-display text-lg font-semibold mt-1.5">Enrollment for A.Y. 2026–2027 is open</h3>
+          <p class="text-cream/60 mt-2 text-xs leading-relaxed">Slots for Nursery through Grade 6 are now open. Inquire early to secure your child's place.</p>
+        </div>
+      </article>
+
+      <article class="reveal card-lift bg-cream/[0.06] border border-cream/15 rounded-2xl overflow-hidden" style="transition-delay:.1s">
+        <img src="images/photo-4.jpg" alt="School activity highlight" class="w-full h-40 object-cover" />
+        <div class="p-5">
+          <span class="text-xs eyebrow uppercase font-bold text-red">Celebration</span>
+          <h3 class="font-display text-lg font-semibold mt-1.5">Buwan ng Wika Festival</h3>
+          <p class="text-cream/60 mt-2 text-xs leading-relaxed">A colorful week of Filipino games, costumes, and performances celebrating our language and culture.</p>
+        </div>
+      </article>
+
+      <article class="reveal card-lift bg-cream/[0.06] border border-cream/15 rounded-2xl overflow-hidden" style="transition-delay:.15s">
+        <img src="images/photo-6.jpg" alt="Field demonstration activity" class="w-full h-40 object-cover" />
+        <div class="p-5">
+          <span class="text-xs eyebrow uppercase font-bold text-yellow">Upcoming</span>
+          <h3 class="font-display text-lg font-semibold mt-1.5">Foundation Day &amp; Field Demonstration</h3>
+          <p class="text-cream/60 mt-2 text-xs leading-relaxed">Save the date for a showcase of practical-life and sensorial work by our Pre-Elementary learners.</p>
+        </div>
+      </article>
+
+      <article class="reveal card-lift bg-cream/[0.06] border border-cream/15 rounded-2xl overflow-hidden" style="transition-delay:.2s">
+        <img src="images/photo-7.jpg" alt="Educational blog and updates" class="w-full h-40 object-cover" />
+        <div class="p-5">
+          <span class="text-xs eyebrow uppercase font-bold text-blue-200">From the Blog</span>
+          <h3 class="font-display text-lg font-semibold mt-1.5">Why "Practical Life" Matters at Age 3</h3>
+          <p class="text-cream/60 mt-2 text-xs leading-relaxed">How pouring, buttoning, and sweeping build focus long before a pencil ever enters a child's hand.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section id="about" class="py-24 md:py-32">
+  <div class="max-w-7xl mx-auto px-5 md:px-8 grid lg:grid-cols-2 gap-16 items-center">
+    <div class="reveal order-2 lg:order-1 grid grid-cols-2 gap-4">
+      <img src="images/photo-1.jpg" alt="Young learners at Headstart School" class="rounded-2xl object-cover h-64 w-full mt-8 shadow-lg" />
+      <img src="images/photo-5.jpg" alt="Classroom moment at Headstart School" class="rounded-2xl object-cover h-64 w-full shadow-lg" />
+      <img src="images/photo-2.jpg" alt="Group activity at Headstart School" class="col-span-2 rounded-2xl object-cover h-52 w-full shadow-lg" />
+    </div>
+    <div class="reveal order-1 lg:order-2" style="transition-delay:.1s">
+      <div class="divider-blocks mb-5 max-w-[160px]"><span class="sq bg-blue"></span><span class="sq bg-yellow"></span><span class="bar"></span></div>
+      <h2 class="font-display text-4xl md:text-5xl font-semibold text-navy leading-tight">A prepared world,<br/> built to child scale.</h2>
+      <p class="mt-6 text-ink/70 leading-relaxed">
+        Headstart School for Child's Total Development Inc. is a child-centered learning community in San Pablo City, founded on the belief that every child carries their own timetable for growth. We built a campus, curriculum, and daily rhythm around that belief — never the other way around.
+      </p>
+      <div class="mt-8 grid sm:grid-cols-2 gap-6">
+        <div>
+          <p class="font-display font-semibold text-navy text-lg">Our Mission</p>
+          <p class="text-sm text-ink/65 mt-2 leading-relaxed">To guide children toward becoming independent, disciplined, and compassionate individuals through a holistic, hands-on education.</p>
+        </div>
+        <div>
+          <p class="font-display font-semibold text-navy text-lg">Our Vision</p>
+          <p class="text-sm text-ink/65 mt-2 leading-relaxed">A community of confident lifelong learners who lead with both intellect and character in a rapidly changing world.</p>
+        </div>
+      </div>
+      <div class="mt-8 flex items-start gap-3 bg-yellow/25 border border-yellow/60 rounded-xl p-5">
+        <span class="block-mark bg-red mt-1"></span>
+        <p class="text-sm text-ink/75 leading-relaxed">What sets us apart: a genuine child-led teaching philosophy, delivered with the structure and rigor of a full academic track from Nursery through Grade 6 — under one roof, one community.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROGRAMS ================= -->
+<section id="programs" class="py-24 md:py-32 bg-paper texture-dots">
+  <div class="max-w-7xl mx-auto px-5 md:px-8">
+    <div class="reveal text-center max-w-2xl mx-auto mb-16">
+      <div class="divider-blocks mb-5 mx-auto max-w-[160px] justify-center"><span class="sq bg-red"></span><span class="sq bg-blue"></span><span class="sq bg-yellow"></span></div>
+      <h2 class="font-display text-4xl md:text-5xl font-semibold text-navy">Academic Programs</h2>
+      <p class="mt-4 text-ink/65">Two learning stages, one continuous journey — each level building deliberately on the one before it.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8">
+      <!-- Pre-Elementary -->
+      <div class="reveal card-lift bg-cream rounded-3xl p-9 md:p-10 border border-ink/10 shadow-sm">
+        <div class="flex items-center justify-between">
+          <span class="inline-block text-xs eyebrow uppercase font-bold text-blue bg-blue/10 px-3 py-1.5 rounded-full">Ages 3–5</span>
+          <span class="w-9 h-9 rounded-full bg-yellow grid place-items-center font-display font-bold text-navy">1</span>
+        </div>
+        <h3 class="font-display text-3xl font-semibold text-navy mt-6">Pre-Elementary</h3>
+        <p class="text-ink/65 mt-3 text-sm leading-relaxed">Where independence takes root. Children move freely between practical-life, sensorial, language, and math materials, building foundational literacy, numeracy, creativity, and social skills at their own pace.</p>
+        <div class="mt-7 grid gap-3">
+          <div class="flex items-center gap-3 bg-blue/5 rounded-xl px-4 py-3">
+            <span class="block-mark bg-blue"></span><span class="text-sm font-semibold text-navy">Nursery 1</span>
+          </div>
+          <div class="flex items-center gap-3 bg-blue/5 rounded-xl px-4 py-3">
+            <span class="block-mark bg-blue"></span><span class="text-sm font-semibold text-navy">Nursery 2</span>
+          </div>
+          <div class="flex items-center gap-3 bg-blue/5 rounded-xl px-4 py-3">
+            <span class="block-mark bg-blue"></span><span class="text-sm font-semibold text-navy">Kindergarten</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Elementary -->
+      <div class="reveal card-lift bg-navy text-cream rounded-3xl p-9 md:p-10 shadow-sm" style="transition-delay:.1s">
+        <div class="flex items-center justify-between">
+          <span class="inline-block text-xs eyebrow uppercase font-bold text-navy bg-yellow px-3 py-1.5 rounded-full">Ages 6–12</span>
+          <span class="w-9 h-9 rounded-full bg-red grid place-items-center font-display font-bold text-cream">2</span>
+        </div>
+        <h3 class="font-display text-3xl font-semibold mt-6">Elementary</h3>
+        <p class="text-cream/65 mt-3 text-sm leading-relaxed">A comprehensive curriculum from Grades 1 through 6 that develops academic excellence alongside character, critical thinking, and lifelong learning skills — preparing every child for what's next.</p>
+        <div class="mt-7 grid grid-cols-3 gap-2.5">
+          <div class="bg-cream/10 rounded-lg py-2.5 text-center text-sm font-semibold">Grade 1</div>
+          <div class="bg-cream/10 rounded-lg py-2.5 text-center text-sm font-semibold">Grade 2</div>
+          <div class="bg-cream/10 rounded-lg py-2.5 text-center text-sm font-semibold">Grade 3</div>
+          <div class="bg-cream/10 rounded-lg py-2.5 text-center text-sm font-semibold">Grade 4</div>
+          <div class="bg-cream/10 rounded-lg py-2.5 text-center text-sm font-semibold">Grade 5</div>
+          <div class="bg-cream/10 rounded-lg py-2.5 text-center text-sm font-semibold">Grade 6</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WHY CHOOSE US ================= -->
+<section id="why-us" class="py-24 md:py-32">
+  <div class="max-w-7xl mx-auto px-5 md:px-8">
+    <div class="reveal max-w-2xl mb-16">
+      <div class="divider-blocks mb-5 max-w-[160px]"><span class="sq bg-yellow"></span><span class="sq bg-red"></span><span class="sq bg-blue"></span></div>
+      <h2 class="font-display text-4xl md:text-5xl font-semibold text-navy">Why Choose Headstart</h2>
+      <p class="mt-4 text-ink/65">Three commitments that shape every classroom decision we make.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="reveal card-lift bg-cream border border-ink/10 rounded-2xl p-8">
+        <div class="w-14 h-14 rounded-2xl bg-yellow grid place-items-center mb-6">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 3L14.4 8.4L20 9L15.8 12.8L17 18.5L12 15.5L7 18.5L8.2 12.8L4 9L9.6 8.4L12 3Z" stroke="#100B6B" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="font-display text-xl font-semibold text-navy">Qualified, Caring Teachers</h3>
+        <p class="text-sm text-ink/65 mt-3 leading-relaxed">Trained guides who observe closely and respond individually — pairing warmth with genuine pedagogical expertise.</p>
+      </div>
+      <div class="reveal card-lift bg-cream border border-ink/10 rounded-2xl p-8" style="transition-delay:.05s">
+        <div class="w-14 h-14 rounded-2xl bg-blue grid place-items-center mb-6">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 3L4 7V12C4 16.5 7.5 20 12 21C16.5 20 20 16.5 20 12V7L12 3Z" stroke="#FBF7EE" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="font-display text-xl font-semibold text-navy">Safe, Nurturing Environment</h3>
+        <p class="text-sm text-ink/65 mt-3 leading-relaxed">A secure, orderly campus designed at child scale, where every material and corner is intentional.</p>
+      </div>
+      <div class="reveal card-lift bg-cream border border-ink/10 rounded-2xl p-8" style="transition-delay:.1s">
+        <div class="w-14 h-14 rounded-2xl bg-red grid place-items-center mb-6">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.4" stroke="#FBF7EE" stroke-width="1.6"/><path d="M5 20C5 16 8 14 12 14C16 14 19 16 19 20" stroke="#FBF7EE" stroke-width="1.6" stroke-linecap="round"/></svg>
+        </div>
+        <h3 class="font-display text-xl font-semibold text-navy">Holistic Development</h3>
+        <p class="text-sm text-ink/65 mt-3 leading-relaxed">Mind, body, and character are treated as one curriculum — never separate tracks competing for a child's time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STUDENT LIFE ================= -->
+<section id="student-life" class="py-24 md:py-32 bg-blue text-cream relative overflow-hidden">
+  <div class="pointer-events-none absolute top-0 right-0 w-96 h-96 rounded-full bg-yellow/10 blur-3xl"></div>
+  <div class="max-w-7xl mx-auto px-5 md:px-8">
+    <div class="reveal max-w-2xl mb-16">
+      <div class="divider-blocks mb-5 max-w-[160px]"><span class="sq bg-yellow"></span><span class="sq bg-red"></span><span class="sq bg-cream/40"></span></div>
+      <h2 class="font-display text-4xl md:text-5xl font-semibold">Student Life</h2>
+      <p class="mt-4 text-cream/70">Learning that lives beyond the classroom walls.</p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <div class="reveal card-lift rounded-2xl overflow-hidden relative h-80 group">
+        <img src="images/photo-8.jpg" alt="School event and celebration" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-t from-navydeep/90 via-navydeep/10 to-transparent"></div>
+        <div class="absolute bottom-0 p-6">
+          <span class="text-xs eyebrow uppercase font-bold text-yellow">School Events</span>
+          <h3 class="font-display text-2xl font-semibold mt-1">Festivals &amp; Celebrations</h3>
+        </div>
+      </div>
+      <div class="reveal card-lift rounded-2xl overflow-hidden relative h-80 group" style="transition-delay:.05s">
+        <img src="images/photo-6.jpg" alt="Community activity" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-t from-navydeep/90 via-navydeep/10 to-transparent"></div>
+        <div class="absolute bottom-0 p-6">
+          <span class="text-xs eyebrow uppercase font-bold text-yellow">Community</span>
+          <h3 class="font-display text-2xl font-semibold mt-1">Outreach &amp; Family Days</h3>
+        </div>
+      </div>
+      <div class="reveal card-lift rounded-2xl overflow-hidden relative h-80 group" style="transition-delay:.1s">
+        <img src="images/photo-9.jpg" alt="Leadership showcase" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-t from-navydeep/90 via-navydeep/10 to-transparent"></div>
+        <div class="absolute bottom-0 p-6">
+          <span class="text-xs eyebrow uppercase font-bold text-yellow">Leadership</span>
+          <h3 class="font-display text-2xl font-semibold mt-1">Assemblies &amp; Recognition</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ADMISSIONS ================= -->
+<section id="admissions" class="py-24 md:py-32">
+  <div class="max-w-7xl mx-auto px-5 md:px-8">
+    <div class="reveal max-w-2xl mb-16">
+      <div class="divider-blocks mb-5 max-w-[160px]"><span class="sq bg-blue"></span><span class="sq bg-yellow"></span><span class="sq bg-red"></span></div>
+      <h2 class="font-display text-4xl md:text-5xl font-semibold text-navy">Admissions</h2>
+      <p class="mt-4 text-ink/65">A straightforward path to joining the Headstart community.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-[1.2fr_1fr] gap-10">
+      <div class="reveal grid sm:grid-cols-2 gap-5">
+        <div class="card-lift bg-cream border border-ink/10 rounded-2xl p-6">
+          <span class="w-9 h-9 rounded-full bg-yellow grid place-items-center font-display font-bold text-navy text-sm">1</span>
+          <h3 class="font-display font-semibold text-navy mt-4">Inquire</h3>
+          <p class="text-xs text-ink/60 mt-2 leading-relaxed">Reach out by phone or through our inquiry form to check slot availability.</p>
+        </div>
+        <div class="card-lift bg-cream border border-ink/10 rounded-2xl p-6">
+          <span class="w-9 h-9 rounded-full bg-blue grid place-items-center font-display font-bold text-cream text-sm">2</span>
+          <h3 class="font-display font-semibold text-navy mt-4">Campus Visit</h3>
+          <p class="text-xs text-ink/60 mt-2 leading-relaxed">Tour the classrooms and meet our teaching team before deciding.</p>
+        </div>
+        <div class="card-lift bg-cream border border-ink/10 rounded-2xl p-6">
+          <span class="w-9 h-9 rounded-full bg-red grid place-items-center font-display font-bold text-cream text-sm">3</span>
+          <h3 class="font-display font-semibold text-navy mt-4">Submit Requirements</h3>
+          <p class="text-xs text-ink/60 mt-2 leading-relaxed">Complete the admission form and submit the requirements listed below.</p>
+        </div>
+        <div class="card-lift bg-cream border border-ink/10 rounded-2xl p-6">
+          <span class="w-9 h-9 rounded-full bg-navy grid place-items-center font-display font-bold text-cream text-sm">4</span>
+          <h3 class="font-display font-semibold text-navy mt-4">Confirm Enrollment</h3>
+          <p class="text-xs text-ink/60 mt-2 leading-relaxed">Settle enrollment fees to officially reserve your child's slot for the school year.</p>
+        </div>
+
+        <div class="sm:col-span-2 bg-navy text-cream rounded-2xl p-7 mt-1">
+          <h3 class="font-display font-semibold text-lg">Admission Requirements</h3>
+          <ul class="mt-4 grid sm:grid-cols-2 gap-x-6 gap-y-2.5 text-sm text-cream/75">
+            <li class="flex items-start gap-2.5"><span class="block-mark bg-yellow mt-1.5"></span>PSA Birth Certificate (photocopy)</li>
+            <li class="flex items-start gap-2.5"><span class="block-mark bg-yellow mt-1.5"></span>2x2 ID pictures</li>
+            <li class="flex items-start gap-2.5"><span class="block-mark bg-yellow mt-1.5"></span>Report card / Form 138 (if applicable)</li>
+            <li class="flex items-start gap-2.5"><span class="block-mark bg-yellow mt-1.5"></span>Certificate of Good Moral Character</li>
+            <li class="flex items-start gap-2.5"><span class="block-mark bg-yellow mt-1.5"></span>Immunization record</li>
+            <li class="flex items-start gap-2.5"><span class="block-mark bg-yellow mt-1.5"></span>Accomplished admission form</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="reveal bg-paper border border-ink/10 rounded-2xl p-8" style="transition-delay:.1s">
+        <h3 class="font-display text-xl font-semibold text-navy">At a Glance</h3>
+        <dl class="mt-6 divide-y divide-ink/10 text-sm">
+          <div class="flex justify-between py-3"><dt class="text-ink/60">Age Requirement — Nursery 1</dt><dd class="font-semibold text-navy">3 years old</dd></div>
+          <div class="flex justify-between py-3"><dt class="text-ink/60">Age Requirement — Kindergarten</dt><dd class="font-semibold text-navy">5 years old</dd></div>
+          <div class="flex justify-between py-3"><dt class="text-ink/60">Age Requirement — Grade 1</dt><dd class="font-semibold text-navy">6 years old</dd></div>
+          <div class="flex justify-between py-3"><dt class="text-ink/60">School Year</dt><dd class="font-semibold text-navy text-right">Aug – Apr</dd></div>
+          <div class="flex justify-between py-3"><dt class="text-ink/60">Enrollment Period</dt><dd class="font-semibold text-navy text-right">Year-round</dd></div>
+        </dl>
+        <a href="#contact" class="mt-7 w-full inline-flex justify-center items-center gap-2 bg-red text-cream font-bold px-6 py-3.5 rounded-full hover:brightness-105 transition">
+          Send an Inquiry
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TESTIMONIALS ================= -->
+<section class="py-24 md:py-32 bg-paper texture-dots">
+  <div class="max-w-7xl mx-auto px-5 md:px-8">
+    <div class="reveal text-center max-w-2xl mx-auto mb-16">
+      <div class="divider-blocks mb-5 mx-auto max-w-[160px] justify-center"><span class="sq bg-red"></span><span class="sq bg-yellow"></span><span class="sq bg-blue"></span></div>
+      <h2 class="font-display text-4xl md:text-5xl font-semibold text-navy">What Parents Say</h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+      <blockquote class="reveal card-lift bg-cream border border-ink/10 rounded-2xl p-8">
+        <p class="font-display italic text-lg text-navy leading-snug">"My daughter went from shy to genuinely independent within a year. The teachers notice the small things that matter."</p>
+        <footer class="mt-5 text-xs eyebrow uppercase font-bold text-ink/50">— Parent, Kindergarten</footer>
+      </blockquote>
+      <blockquote class="reveal card-lift bg-cream border border-ink/10 rounded-2xl p-8" style="transition-delay:.05s">
+        <p class="font-display italic text-lg text-navy leading-snug">"It doesn't feel like a school pushing worksheets. It feels like a place my son actually wants to be every morning."</p>
+        <footer class="mt-5 text-xs eyebrow uppercase font-bold text-ink/50">— Parent, Grade 2</footer>
+      </blockquote>
+      <blockquote class="reveal card-lift bg-cream border border-ink/10 rounded-2xl p-8" style="transition-delay:.1s">
+        <p class="font-display italic text-lg text-navy leading-snug">"Headstart built the foundation — discipline, curiosity, respect — that carried my child straight through elementary."</p>
+        <footer class="mt-5 text-xs eyebrow uppercase font-bold text-ink/50">— Alumni Parent</footer>
+      </blockquote>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FAQ ================= -->
+<section id="faq" class="py-24 md:py-32">
+  <div class="max-w-4xl mx-auto px-5 md:px-8">
+    <div class="reveal text-center mb-14">
+      <div class="divider-blocks mb-5 mx-auto max-w-[160px] justify-center"><span class="sq bg-blue"></span><span class="sq bg-red"></span><span class="sq bg-yellow"></span></div>
+      <h2 class="font-display text-4xl md:text-5xl font-semibold text-navy">Frequently Asked Questions</h2>
+    </div>
+
+    <div class="reveal divide-y divide-ink/10 border-y border-ink/10">
+      <details class="group py-6" open>
+        <summary class="flex items-center justify-between gap-4 cursor-pointer">
+          <span class="font-display font-semibold text-navy text-lg">When does enrollment open?</span>
+          <span class="chev w-8 h-8 rounded-full border border-ink/20 grid place-items-center flex-shrink-0">+</span>
+        </summary>
+        <div class="acc-panel"><div class="acc-inner">
+          <p class="text-sm text-ink/65 mt-3 leading-relaxed">Enrollment is open year-round for available slots, with priority scheduling ahead of the August school year opening.</p>
+        </div></div>
+      </details>
+      <details class="group py-6">
+        <summary class="flex items-center justify-between gap-4 cursor-pointer">
+          <span class="font-display font-semibold text-navy text-lg">How do I inquire about tuition?</span>
+          <span class="chev w-8 h-8 rounded-full border border-ink/20 grid place-items-center flex-shrink-0">+</span>
+        </summary>
+        <div class="acc-panel"><div class="acc-inner">
+          <p class="text-sm text-ink/65 mt-3 leading-relaxed">Tuition varies by level and payment plan. Message us directly or use the inquiry form below and our registrar will send full details.</p>
+        </div></div>
+      </details>
+      <details class="group py-6">
+        <summary class="flex items-center justify-between gap-4 cursor-pointer">
+          <span class="font-display font-semibold text-navy text-lg">What are the school hours?</span>
+          <span class="chev w-8 h-8 rounded-full border border-ink/20 grid place-items-center flex-shrink-0">+</span>
+        </summary>
+        <div class="acc-panel"><div class="acc-inner">
+          <p class="text-sm text-ink/65 mt-3 leading-relaxed">Classes generally run in the morning and early afternoon, Monday to Friday. Exact hours differ slightly by grade level.</p>
+        </div></div>
+      </details>
+      <details class="group py-6">
+        <summary class="flex items-center justify-between gap-4 cursor-pointer">
+          <span class="font-display font-semibold text-navy text-lg">Is a uniform required?</span>
+          <span class="chev w-8 h-8 rounded-full border border-ink/20 grid place-items-center flex-shrink-0">+</span>
+        </summary>
+        <div class="acc-panel"><div class="acc-inner">
+          <p class="text-sm text-ink/65 mt-3 leading-relaxed">Yes. Daily and PE uniforms are required and available through the school; sizing and fitting is arranged upon enrollment.</p>
+        </div></div>
+      </details>
+      <details class="group py-6">
+        <summary class="flex items-center justify-between gap-4 cursor-pointer">
+          <span class="font-display font-semibold text-navy text-lg">What grade levels do you offer?</span>
+          <span class="chev w-8 h-8 rounded-full border border-ink/20 grid place-items-center flex-shrink-0">+</span>
+        </summary>
+        <div class="acc-panel"><div class="acc-inner">
+          <p class="text-sm text-ink/65 mt-3 leading-relaxed">We offer Nursery 1, Nursery 2, and Kindergarten under Pre-Elementary, and Grades 1 through 6 under Elementary.</p>
+        </div></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact" class="py-24 md:py-32 bg-navydeep text-cream relative overflow-hidden">
+  <div class="pointer-events-none absolute -bottom-32 -left-20 w-[420px] h-[420px] rounded-full bg-red/10 blur-3xl"></div>
+  <div class="max-w-7xl mx-auto px-5 md:px-8">
+    <div class="reveal max-w-2xl mb-16">
+      <div class="divider-blocks mb-5 max-w-[160px]"><span class="sq bg-yellow"></span><span class="sq bg-blue"></span><span class="sq bg-red"></span></div>
+      <h2 class="font-display text-4xl md:text-5xl font-semibold">Let's Talk</h2>
+      <p class="mt-4 text-cream/65">We're happy to answer questions, walk you through admissions, or schedule your visit.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-10">
+      <div class="reveal grid gap-5">
+        <div class="bg-cream/[0.06] border border-cream/15 rounded-2xl p-6 flex gap-4 transition-colors duration-300 hover:bg-cream/[0.1] hover:border-cream/30">
+          <span class="w-11 h-11 rounded-xl bg-yellow flex-shrink-0 grid place-items-center">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 21C12 21 5 14.5 5 9.5C5 6 8 3 12 3C16 3 19 6 19 9.5C19 14.5 12 21 12 21Z" stroke="#100B6B" stroke-width="1.6"/><circle cx="12" cy="9.5" r="2.4" stroke="#100B6B" stroke-width="1.6"/></svg>
+          </span>
+          <div>
+            <p class="font-display font-semibold">School Address</p>
+            <p class="text-sm text-cream/65 mt-1">Maharlika Hi-way, Brgy. San Vicente,<br/>San Pablo City, Philippines</p>
+          </div>
+        </div>
+
+        <div class="bg-cream/[0.06] border border-cream/15 rounded-2xl p-6 flex gap-4 transition-colors duration-300 hover:bg-cream/[0.1] hover:border-cream/30">
+          <span class="w-11 h-11 rounded-xl bg-blue flex-shrink-0 grid place-items-center">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 4H9L11 9L8.5 10.5C9.5 12.7 11.3 14.5 13.5 15.5L15 13L20 15V18C20 19.1 19.1 20 18 20C10.3 19.5 4.5 13.7 4 6C4 4.9 4.9 4 6 4Z" stroke="#FBF7EE" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          </span>
+          <div>
+            <p class="font-display font-semibold">Contact Numbers</p>
+            <p class="text-sm text-cream/65 mt-1">Sir Marvin — 0922 811 2546<br/>Ma'am Joy — 0915 408 8727</p>
+          </div>
+        </div>
+
+        <div class="bg-cream/[0.06] border border-cream/15 rounded-2xl p-6 flex gap-4 transition-colors duration-300 hover:bg-cream/[0.1] hover:border-cream/30">
+          <span class="w-11 h-11 rounded-xl bg-red flex-shrink-0 grid place-items-center">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3.5" y="5" width="17" height="14" rx="2" stroke="#FBF7EE" stroke-width="1.6"/><path d="M4 6.5L12 12.5L20 6.5" stroke="#FBF7EE" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </span>
+          <div>
+            <p class="font-display font-semibold">Email</p>
+            <p class="text-sm text-cream/65 mt-1">info@headstartschool.edu.ph</p>
+          </div>
+        </div>
+
+        <a href="https://www.facebook.com/headstartspc.official/" target="_blank" rel="noopener noreferrer" class="group bg-cream/[0.06] border border-cream/15 rounded-2xl p-6 flex gap-4 items-center transition-colors duration-300 hover:bg-cream/[0.1] hover:border-cream/30">
+          <span class="w-11 h-11 rounded-xl bg-blue flex-shrink-0 grid place-items-center transition-transform duration-300 group-hover:scale-110">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="#FBF7EE"><path d="M13.5 21V13.2H16.1L16.5 10.1H13.5V8.1C13.5 7.2 13.7 6.6 15 6.6H16.6V3.8C16.1 3.7 15.1 3.6 14 3.6C11.6 3.6 10 5.1 10 7.8V10.1H7.4V13.2H10V21H13.5Z"/></svg>
+          </span>
+          <div>
+            <p class="font-display font-semibold flex items-center gap-2">Facebook
+              <svg class="w-3.5 h-3.5 opacity-0 -translate-x-1 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0" viewBox="0 0 16 16" fill="none"><path d="M2 8H14M14 8L9 3M14 8L9 13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </p>
+            <p class="text-sm text-cream/65 mt-1">facebook.com/headstartspc.official</p>
+          </div>
+        </a>
+
+        <div class="rounded-2xl overflow-hidden border border-cream/15 h-56">
+          <iframe
+            title="Headstart School location map"
+            class="w-full h-full grayscale-[20%]"
+            src="https://www.google.com/maps?q=Maharlika+Highway,+Brgy.+San+Vicente,+San+Pablo+City,+Philippines&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+      </div>
+
+      <form class="reveal bg-cream text-ink rounded-2xl p-8" style="transition-delay:.1s" onsubmit="event.preventDefault(); const b=this.querySelector('button'); b.textContent='Inquiry sent ✓'; b.disabled=true; b.classList.add('opacity-70');">
+        <h3 class="font-display text-2xl font-semibold text-navy">Send an Inquiry</h3>
+        <p class="text-sm text-ink/55 mt-1.5">We typically respond within one school day.</p>
+        <div class="mt-6 grid gap-4">
+          <div>
+            <label for="f-name" class="text-xs font-bold uppercase eyebrow text-ink/50">Parent / Guardian Name</label>
+            <input id="f-name" required type="text" placeholder="Juan Dela Cruz" class="mt-2 w-full border border-ink/15 rounded-xl px-4 py-3 text-sm bg-white focus:border-blue" />
+          </div>
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label for="f-phone" class="text-xs font-bold uppercase eyebrow text-ink/50">Phone Number</label>
+              <input id="f-phone" required type="tel" placeholder="09XX XXX XXXX" class="mt-2 w-full border border-ink/15 rounded-xl px-4 py-3 text-sm bg-white focus:border-blue" />
+            </div>
+            <div>
+              <label for="f-grade" class="text-xs font-bold uppercase eyebrow text-ink/50">Grade Level Applying For</label>
+              <select id="f-grade" class="mt-2 w-full border border-ink/15 rounded-xl px-4 py-3 text-sm bg-white focus:border-blue">
+                <option>Nursery 1</option>
+                <option>Nursery 2</option>
+                <option>Kindergarten</option>
+                <option>Grade 1</option>
+                <option>Grade 2</option>
+                <option>Grade 3</option>
+                <option>Grade 4</option>
+                <option>Grade 5</option>
+                <option>Grade 6</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label for="f-msg" class="text-xs font-bold uppercase eyebrow text-ink/50">Message</label>
+            <textarea id="f-msg" rows="3" placeholder="Tell us a bit about your child..." class="mt-2 w-full border border-ink/15 rounded-xl px-4 py-3 text-sm bg-white focus:border-blue"></textarea>
+          </div>
+          <button type="submit" class="mt-1 bg-red text-cream font-bold px-6 py-3.5 rounded-full hover:brightness-105 transition">Submit Inquiry</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer class="bg-navy text-cream/60 py-10">
+  <div class="max-w-7xl mx-auto px-5 md:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+    <div class="flex items-center gap-3">
+      <img src="images/logo.png" alt="Headstart School logo" class="h-8 w-8 object-contain" />
+      <span>© <span id="year"></span> Headstart School for Child's Total Development Inc.</span>
+    </div>
+    <div class="flex items-center gap-4">
+      <a href="https://www.facebook.com/headstartspc.official/" target="_blank" rel="noopener noreferrer" aria-label="Headstart School on Facebook" class="group w-8 h-8 rounded-full bg-cream/10 grid place-items-center transition-transform duration-300 hover:scale-110">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" class="text-cream transition-colors duration-300 group-hover:text-yellow"><path d="M13.5 21V13.2H16.1L16.5 10.1H13.5V8.1C13.5 7.2 13.7 6.6 15 6.6H16.6V3.8C16.1 3.7 15.1 3.6 14 3.6C11.6 3.6 10 5.1 10 7.8V10.1H7.4V13.2H10V21H13.5Z"/></svg>
+      </a>
+      <div class="flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-sm bg-yellow"></span>
+        <span class="w-2 h-2 rounded-sm bg-blue"></span>
+        <span class="w-2 h-2 rounded-sm bg-red"></span>
+        <span class="ml-2">San Pablo City, Philippines</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<div id="fbs-offer-modal-backdrop" class="fixed inset-0 z-[9990] hidden items-center justify-center p-4" style="background:rgba(255,255,255,.85)"><section id="fbs-offer-banner" class="relative overflow-hidden py-12 px-5 sm:px-8 w-full max-w-2xl max-h-[88vh] overflow-y-auto rounded-3xl shadow-2xl" style="background:linear-gradient(135deg,#1a1024 0,#3a1236 45%,#7a1f5c 100%)"><button onclick="fbsCloseModal()" aria-label="Close" class="absolute top-4 right-4 z-10 w-8 h-8 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 text-xl leading-none transition">&times;</button><div class="max-w-4xl mx-auto text-center"><span class="inline-block text-[11px] font-semibold tracking-widest uppercase text-white/60 mb-3">A message from your web development team</span><h3 class="text-2xl sm:text-3xl font-bold text-white mb-3">Like what you see so far?</h3><p class="text-white/70 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed mb-2">This is a live preview built specifically for Headstart School for Child's Total Development Inc. — not a template. If it's a good fit for your school, our one-page website package for local schools starts at <span class="text-white font-semibold">₱9,000</span>, all-in: responsive design, basic SEO, SSL, and one year of hosting and domain.</p><p class="text-white/60 text-xs sm:text-sm max-w-2xl mx-auto leading-relaxed mb-10">Want changes to text, photos, or details? That's included — just reach out and we'll update the site for you. Adding extra pages beyond this single-page layout is a separate scope and quoted apart from the ₱9,000 package.</p><div class="max-w-2xl mx-auto mb-10 text-left"><div class="flex items-center justify-center gap-2 mb-4"><button id="fbs-toggle-before" onclick='fbsSetToggle("before")' class="px-5 py-2 rounded-full text-xs font-semibold border border-white/25 text-white/70 transition">Without a website</button> <button id="fbs-toggle-after" onclick='fbsSetToggle("after")' class="px-5 py-2 rounded-full text-xs font-semibold border transition" style="background:linear-gradient(135deg,#c81e78,#7a1f5c);border-color:transparent;color:#fff">With FBS website</button></div><div id="fbs-toggle-before-panel" class="fbs-toggle-panel rounded-2xl border border-white/15 bg-white/5 p-6 text-center"><p class="text-white/70 text-sm leading-relaxed">Relying on Facebook posts and word of mouth — inquiries get lost in comments, there's no single place for enrollment info, and parents can't find you on Google.</p></div><div id="fbs-toggle-after-panel" class="fbs-toggle-panel fbs-active rounded-2xl overflow-hidden border border-white/15 bg-white/5"><div class="px-4 pt-4 pb-2 flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-red-400/70"></span> <span class="w-2.5 h-2.5 rounded-full bg-yellow-400/70"></span> <span class="w-2.5 h-2.5 rounded-full bg-green-400/70"></span> <span class="ml-2 text-white/40 text-[11px] truncate">headstartschool.com</span></div><p class="text-white/70 text-sm leading-relaxed px-6 pb-2">This exact page — always on, mobile-friendly, and easy to find. One link to share on Facebook, in group chats, or on a tarpaulin.</p><p class="text-white/40 text-[11px] leading-relaxed px-6 pb-6">Don't like "headstartschool.com"? The domain name is customizable — we can register your preferred name instead, depending on availability.</p></div></div><div class="max-w-2xl mx-auto mb-10 text-left rounded-2xl border border-white/15 divide-y divide-white/10 overflow-hidden"><div class="fbs-accordion-row" data-fbs-accordion><button type="button" onclick="fbsToggleAccordion(this)" class="w-full flex items-center justify-between px-5 py-3.5 text-left"><span class="text-white text-sm font-medium">Responsive Design</span> <span class="fbs-accordion-icon text-white/60 text-xl leading-none">+</span></button><div class="fbs-accordion-body px-5"><p class="text-white/60 text-xs pb-4">Looks and works well on phones, tablets, and desktops — most parents will visit from their phone.</p></div></div><div class="fbs-accordion-row" data-fbs-accordion><button type="button" onclick="fbsToggleAccordion(this)" class="w-full flex items-center justify-between px-5 py-3.5 text-left"><span class="text-white text-sm font-medium">SSL Certificate</span> <span class="fbs-accordion-icon text-white/60 text-xl leading-none">+</span></button><div class="fbs-accordion-body px-5"><p class="text-white/60 text-xs pb-4">The padlock icon and "https" that tell parents your site is secure and trustworthy.</p></div></div><div class="fbs-accordion-row" data-fbs-accordion><button type="button" onclick="fbsToggleAccordion(this)" class="w-full flex items-center justify-between px-5 py-3.5 text-left"><span class="text-white text-sm font-medium">1-Year Hosting</span> <span class="fbs-accordion-icon text-white/60 text-xl leading-none">+</span></button><div class="fbs-accordion-body px-5"><p class="text-white/60 text-xs pb-4">Your site stays live and accessible online — no separate hosting bill to manage.</p></div></div><div class="fbs-accordion-row" data-fbs-accordion><button type="button" onclick="fbsToggleAccordion(this)" class="w-full flex items-center justify-between px-5 py-3.5 text-left"><span class="text-white text-sm font-medium">1-Year Domain</span> <span class="fbs-accordion-icon text-white/60 text-xl leading-none">+</span></button><div class="fbs-accordion-body px-5"><p class="text-white/60 text-xs pb-4">A clean, memorable web address for your school — fully customizable. You're not stuck with this demo's name; you can choose your own preferred domain (e.g. yourschoolname.com), subject to availability.</p></div></div><div class="fbs-accordion-row" data-fbs-accordion><button type="button" onclick="fbsToggleAccordion(this)" class="w-full flex items-center justify-between px-5 py-3.5 text-left"><span class="text-white text-sm font-medium">Basic SEO</span> <span class="fbs-accordion-icon text-white/60 text-xl leading-none">+</span></button><div class="fbs-accordion-body px-5"><p class="text-white/60 text-xs pb-4">Helps your school show up when parents search on Google for schools nearby.</p></div></div><div class="fbs-accordion-row" data-fbs-accordion><button type="button" onclick="fbsToggleAccordion(this)" class="w-full flex items-center justify-between px-5 py-3.5 text-left"><span class="text-white text-sm font-medium">Content / Photo Edits</span> <span class="fbs-accordion-icon text-white/60 text-xl leading-none">+</span></button><div class="fbs-accordion-body px-5"><p class="text-white/60 text-xs pb-4">Need text or photos updated later? Just reach out — it's included in the package.</p></div></div></div><div class="max-w-2xl mx-auto mb-10 overflow-x-auto"><table class="w-full text-xs sm:text-sm border-separate" style="border-spacing:0"><thead><tr><th class="text-left text-white/50 font-medium pb-3 pr-2 align-bottom">&nbsp;</th><th class="text-center text-white/60 font-medium pb-3 px-2 align-bottom">Free / DIY Builder</th><th class="text-center pb-3 px-2 align-bottom"><span class="block rounded-t-xl px-2 py-1.5 font-semibold text-white" style="background:linear-gradient(135deg,#c81e78,#7a1f5c)">FBS Package<br><span class="font-normal text-[11px] text-white/80">₱9,000</span></span></th><th class="text-center text-white/60 font-medium pb-3 pl-2 align-bottom">Custom Agency Site<br><span class="font-normal text-[11px] text-white/40">₱50K+</span></th></tr></thead><tbody class="text-white/70"><tr class="border-t border-white/10"><td class="py-2.5 pr-2 text-left text-white/60">Custom design</td><td class="py-2.5 px-2 text-center text-red-300">✕</td><td class="py-2.5 px-2 text-center" style="background:rgba(200,30,120,.12)"><span class="text-green-300">✓</span></td><td class="py-2.5 pl-2 text-center text-green-300">✓</td></tr><tr class="border-t border-white/10"><td class="py-2.5 pr-2 text-left text-white/60">Hosting included</td><td class="py-2.5 px-2 text-center text-red-300">✕</td><td class="py-2.5 px-2 text-center" style="background:rgba(200,30,120,.12)"><span class="text-green-300">✓</span></td><td class="py-2.5 pl-2 text-center text-green-300">✓</td></tr><tr class="border-t border-white/10"><td class="py-2.5 pr-2 text-left text-white/60">SSL included</td><td class="py-2.5 px-2 text-center text-red-300">✕</td><td class="py-2.5 px-2 text-center" style="background:rgba(200,30,120,.12)"><span class="text-green-300">✓</span></td><td class="py-2.5 pl-2 text-center text-green-300">✓</td></tr><tr class="border-t border-white/10"><td class="py-2.5 pr-2 text-left text-white/60">Ongoing edits support</td><td class="py-2.5 px-2 text-center text-red-300">✕</td><td class="py-2.5 px-2 text-center" style="background:rgba(200,30,120,.12)"><span class="text-green-300">✓</span></td><td class="py-2.5 pl-2 text-center text-green-300">✓</td></tr><tr class="border-t border-white/10"><td class="py-2.5 pr-2 text-left text-white/60">Delivery time</td><td class="py-2.5 px-2 text-center text-white/50">Varies</td><td class="py-2.5 px-2 text-center font-medium text-white" style="background:rgba(200,30,120,.12)">Days</td><td class="py-2.5 pl-2 text-center text-white/50">Weeks+</td></tr><tr class="border-t border-b border-white/10"><td class="py-2.5 pr-2 text-left text-white/60 rounded-bl-xl">Mobile optimization</td><td class="py-2.5 px-2 text-center text-white/50">Varies</td><td class="py-2.5 px-2 text-center" style="background:rgba(200,30,120,.12)"><span class="text-green-300">✓</span></td><td class="py-2.5 pl-2 text-center text-green-300 rounded-br-xl">✓</td></tr></tbody></table></div><div class="max-w-2xl mx-auto mb-10"><p class="text-white/40 text-[11px] uppercase tracking-widest font-semibold mb-3">Built for schools and local organizations</p><div class="flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-white/50 text-xs font-medium"><span class="px-3 py-1.5 rounded-full border border-white/15">Preschools</span> <span class="px-3 py-1.5 rounded-full border border-white/15">Elementary Schools</span> <span class="px-3 py-1.5 rounded-full border border-white/15">Local Clinics</span> <span class="px-3 py-1.5 rounded-full border border-white/15">Small Businesses</span></div></div><div class="max-w-2xl mx-auto mb-10"><div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-center"><div class="rounded-2xl border border-white/15 bg-white/5 px-4 py-5"><span class="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold text-white mb-2" style="background:linear-gradient(135deg,#c81e78,#7a1f5c)">1</span><p class="text-white text-sm font-medium">Reach out</p><p class="text-white/50 text-xs mt-1">Send us a message or email</p></div><div class="rounded-2xl border border-white/15 bg-white/5 px-4 py-5"><span class="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold text-white mb-2" style="background:linear-gradient(135deg,#c81e78,#7a1f5c)">2</span><p class="text-white text-sm font-medium">We tailor it to your school</p><p class="text-white/50 text-xs mt-1">Content, photos, and details</p></div><div class="rounded-2xl border border-white/15 bg-white/5 px-4 py-5"><span class="inline-flex items-center justify-center w-7 h-7 rounded-full text-xs font-bold text-white mb-2" style="background:linear-gradient(135deg,#c81e78,#7a1f5c)">3</span><p class="text-white text-sm font-medium">Live in a few days</p><p class="text-white/50 text-xs mt-1">Ready to share with parents</p></div></div></div><div class="flex flex-wrap items-center justify-center gap-3"><a href="mailto:jinuel.ramos@frontlinebusiness.com.ph?subject=Website%20Inquiry" class="inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold text-sm text-white shadow-lg hover:brightness-110 transition" style="background:linear-gradient(135deg,#c81e78,#7a1f5c)">Talk to Us About Your Website </a><a href="https://frontlinebusiness.com.ph/" target="_blank" rel="noopener" class="inline-flex items-center gap-2 px-7 py-3 rounded-full font-semibold text-sm text-white/90 border border-white/30 hover:bg-white/10 transition">Visit Our Website</a></div><p class="text-white/40 text-xs mt-4">No obligation — we're happy to answer questions or adjust the design first.</p><p class="text-white/50 text-xs mt-2 fbs-selectable">Web Solutions Specialist: Zymon — <span class="text-white/80 font-semibold break-words">jinuel.ramos@frontlinebusiness.com.ph</span> · <span class="text-white/80 font-semibold">0927 910 6488</span></p></div></section></div><div id="fbs-chat-bubble" class="fixed bottom-5 right-5 z-50 flex-col items-end gap-2 hidden"><div id="fbs-chat-tooltip" class="bg-white rounded-2xl shadow-2xl px-4 py-3 max-w-[220px] text-xs text-[#3a1236] font-medium relative hidden sm:block" style="border:1px solid #eee">This site can be yours — starting at ₱9,000<div class="absolute -bottom-1.5 right-6 w-3 h-3 bg-white rotate-45" style="border-right:1px solid #eee;border-bottom:1px solid #eee"></div></div><button id="fbs-chat-bubble-btn" onclick="fbsOpenPanel()" aria-label="Open chat with Zymon" class="w-16 h-16 rounded-full shadow-2xl overflow-hidden hover:scale-105 transition-transform p-0.5" style="background:linear-gradient(135deg,#c81e78,#7a1f5c)"><img src="data:image/jpeg;base64,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" alt="Zymon — Web Solutions Specialist" class="w-full h-full rounded-full object-cover"></button></div><div id="fbs-chat-panel" class="fixed bottom-5 right-5 z-50 w-[300px] max-w-[90vw] max-h-[calc(100vh-40px)] rounded-2xl shadow-2xl overflow-hidden hidden flex flex-col" style="border:1px solid #eee"><div class="px-4 py-3 flex items-center gap-3 shrink-0" style="background:linear-gradient(135deg,#c81e78,#7a1f5c)"><img src="data:image/jpeg;base64,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" alt="Zymon" class="w-9 h-9 rounded-full object-cover shrink-0 border border-white/30"><div class="min-w-0"><span class="text-white font-semibold text-sm block truncate">Jinuel Zymon Ramos</span> <span class="text-white/70 text-[11px] block truncate">Web Solutions Specialist</span></div><button onclick="fbsClosePanel()" aria-label="Close chat" class="text-white/80 hover:text-white text-lg leading-none ml-auto">&times;</button></div><div id="fbs-chat-panel-scroll" class="overflow-y-auto min-h-0"><div id="fbs-panel-body-default" class="bg-white px-4 py-4 text-sm text-[#3a1236] space-y-3"><p>Hi! This single-page site was built as a demo for your school.</p><p>Our local-school package for a site like this starts at <span class="font-semibold">₱9,000</span> — includes hosting, domain, and SSL for one year.</p><div class="flex flex-wrap gap-2 pt-1"><button onclick='fbsShowChip("pricing")' class="text-xs font-medium px-3 py-1.5 rounded-full border" style="border-color:#7a1f5c33;color:#7a1f5c">💰 See pricing</button> <button onclick='fbsShowChip("edit")' class="text-xs font-medium px-3 py-1.5 rounded-full border" style="border-color:#7a1f5c33;color:#7a1f5c">✏️ I want to edit something</button> <button onclick='fbsShowChip("contact")' class="text-xs font-medium px-3 py-1.5 rounded-full border" style="border-color:#7a1f5c33;color:#7a1f5c">📩 Talk to Zymon</button> <button onclick="fbsForceShowModal()" class="text-xs font-medium px-3 py-1.5 rounded-full border" style="border-color:#7a1f5c33;color:#7a1f5c">🎁 View full offer</button></div></div><div id="fbs-panel-body-pricing" class="hidden bg-white px-4 py-4 text-sm text-[#3a1236] space-y-3"><button onclick='fbsShowChip("default")' class="text-xs text-[#7a1f5c]/70 hover:underline">&larr; Back</button><p>The local-school package is <span class="font-semibold">₱9,000</span>, all-in:</p><ul class="text-xs text-[#3a1236]/80 space-y-1 list-disc pl-4"><li>Responsive design</li><li>SSL certificate</li><li>1 year hosting + 1 year domain (customizable name, subject to availability)</li><li>Basic SEO</li><li>Content / photo edits included</li></ul><p class="text-xs text-[#3a1236]/60">Additional pages beyond this single-page layout are a separate quote.</p><a href="mailto:jinuel.ramos@frontlinebusiness.com.ph?subject=Website%20Pricing%20Inquiry" class="block text-center w-full py-2.5 rounded-full text-white text-sm font-semibold hover:brightness-110 transition" style="background:linear-gradient(135deg,#c81e78,#7a1f5c)">Ask About Pricing</a><p class="text-center text-xs text-[#3a1236]/50">or call/text <a href="tel:+639279106488" class="font-semibold hover:underline" style="color:#7a1f5c">0927 910 6488</a></p></div><div id="fbs-panel-body-edit" class="hidden bg-white px-4 py-4 text-sm text-[#3a1236] space-y-3"><button onclick='fbsShowChip("default")' class="text-xs text-[#7a1f5c]/70 hover:underline">&larr; Back</button><p>Content and photo edits are included in the ₱9,000 package — just tell us what to change and we'll update the live site for you.</p><p class="text-xs text-[#3a1236]/60">Adding extra pages beyond this single-page layout is a separate scope, quoted apart from the package.</p><a href="mailto:jinuel.ramos@frontlinebusiness.com.ph?subject=Website%20Edit%20Request" class="block text-center w-full py-2.5 rounded-full text-white text-sm font-semibold hover:brightness-110 transition" style="background:linear-gradient(135deg,#c81e78,#7a1f5c)">Request an Edit</a><p class="text-center text-xs text-[#3a1236]/50">or call/text <a href="tel:+639279106488" class="font-semibold hover:underline" style="color:#7a1f5c">0927 910 6488</a></p></div><div id="fbs-panel-body-contact" class="hidden bg-white px-4 py-4 text-sm text-[#3a1236] space-y-3"><button onclick='fbsShowChip("default")' class="text-xs text-[#7a1f5c]/70 hover:underline">&larr; Back</button><p>You can reach our Web Solutions Specialist, Zymon, directly:</p><div class="flex items-center gap-2 rounded-xl px-3 py-2" style="background:#7a1f5c0d"><svg class="w-4 h-4 shrink-0" style="color:#7a1f5c" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg> <span class="text-[11px] font-semibold text-[#3a1236] fbs-selectable whitespace-nowrap">jinuel.ramos@frontlinebusiness.com.ph</span></div><div class="flex items-center gap-2 rounded-xl px-3 py-2" style="background:#7a1f5c0d"><svg class="w-4 h-4 shrink-0" style="color:#7a1f5c" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg> <span class="text-sm font-semibold text-[#3a1236] fbs-selectable whitespace-nowrap">0927 910 6488</span></div><a href="mailto:jinuel.ramos@frontlinebusiness.com.ph?subject=Website%20Inquiry" class="block text-center w-full py-2.5 rounded-full text-white text-sm font-semibold hover:brightness-110 transition" style="background:linear-gradient(135deg,#c81e78,#7a1f5c)">Contact Us</a> <a href="tel:+639279106488" class="block text-center w-full py-2.5 rounded-full text-sm font-semibold border transition" style="border-color:#7a1f5c33;color:#7a1f5c">Call / Text 0927 910 6488</a> <a href="https://frontlinebusiness.com.ph/web-singlepage?id=17" target="_blank" rel="noopener" class="block text-center w-full py-2 text-xs font-medium hover:underline" style="color:#7a1f5c">View Package Details</a></div></div></div>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const menuBtn = document.getElementById('menuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const closeMobileMenu = () => {
+    mobileMenu.classList.remove('open');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  };
+  menuBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const willOpen = !mobileMenu.classList.contains('open');
+    mobileMenu.classList.toggle('open', willOpen);
+    menuBtn.setAttribute('aria-expanded', String(willOpen));
+  });
+  document.querySelectorAll('.mob-link').forEach(a => a.addEventListener('click', closeMobileMenu));
+  document.addEventListener('click', (e) => {
+    if (mobileMenu.classList.contains('open') && !mobileMenu.contains(e.target) && e.target !== menuBtn) {
+      closeMobileMenu();
+    }
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMobileMenu(); });
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 1024) closeMobileMenu();
+  });
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  document.querySelectorAll('details').forEach(d => {
+    d.addEventListener('toggle', () => {
+      if (d.open) {
+        document.querySelectorAll('details').forEach(other => { if (other !== d) other.open = false; });
+      }
+    });
+  });
+
+  /* ===== FBS watermark ===== */
+  (function(){
+    const el = document.getElementById('fbs-watermark-inner');
+    if(!el) return;
+    const area = 2.2*window.innerWidth*(2.2*window.innerHeight);
+    const n = Math.min(400, Math.max(60, Math.ceil(area/23800)));
+    let out = '';
+    for(let i=0;i<n;i++) out += '<span class="fbs-wm-tile">DEMO PREVIEW &middot; &copy; Frontline Business Solutions</span>';
+    el.innerHTML = out;
+  })();
+
+  /* ===== Inspect-element / right-click protection ===== */
+  document.addEventListener('contextmenu', e => e.preventDefault());
+  document.addEventListener('keydown', e => {
+    const k = e.key;
+    if (k === 'F12') return void e.preventDefault();
+    const ctrl = e.ctrlKey || e.metaKey;
+    if ((ctrl && e.shiftKey && (k === 'I' || k === 'i' || k === 'J' || k === 'j' || k === 'C' || k === 'c')) || (ctrl && (k === 'u' || k === 'U'))) {
+      e.preventDefault();
+    }
+  });
+  console.log('%cThis is a protected demo build by Frontline Business Solutions.\nPlease contact us for licensing or purchase inquiries — jinuel.ramos@frontlinebusiness.com.ph', 'color:#c81e78; font-size:16px; font-weight:700;');
+
+  /* ===== Chat bubble / panel ===== */
+  const fbsBubble = document.getElementById('fbs-chat-bubble');
+  const fbsChatPanel = document.getElementById('fbs-chat-panel');
+  window.fbsOpenPanel = function(){ fbsChatPanel.classList.remove('hidden'); fbsBubble.classList.add('hidden'); fbsBubble.classList.remove('flex'); };
+  window.fbsClosePanel = function(){ fbsChatPanel.classList.add('hidden'); fbsBubble.classList.remove('hidden'); fbsBubble.classList.add('flex'); };
+  window.addEventListener('load', () => { setTimeout(() => { fbsOpenPanel(); }, 900); });
+
+  /* ===== Scroll-triggered offer modal ===== */
+  const fbsModalBackdrop = document.getElementById('fbs-offer-modal-backdrop');
+  let fbsModalShownThisLoad = false;
+  function fbsOpenModalNow(){ fbsModalBackdrop.classList.remove('hidden'); fbsModalBackdrop.classList.add('flex'); document.body.style.overflow = 'hidden'; }
+  function fbsShowModal(){ if(!fbsModalShownThisLoad){ fbsModalShownThisLoad = true; fbsOpenModalNow(); } }
+  window.fbsForceShowModal = function(){ fbsOpenModalNow(); };
+  window.fbsCloseModal = function(){ fbsModalBackdrop.classList.add('hidden'); fbsModalBackdrop.classList.remove('flex'); document.body.style.overflow = ''; };
+  window.addEventListener('scroll', () => {
+    if (fbsModalShownThisLoad) return;
+    const y = window.scrollY || document.documentElement.scrollTop;
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    if (max > 0 && y/max >= 0.6) fbsShowModal();
+  }, { passive: true });
+  fbsModalBackdrop.addEventListener('click', e => { if (e.target === fbsModalBackdrop) fbsCloseModal(); });
+  window.addEventListener('keydown', e => { if (e.key === 'Escape' && !fbsModalBackdrop.classList.contains('hidden')) fbsCloseModal(); });
+
+  /* ===== Chat panel chips / before-after toggle / accordion ===== */
+  window.fbsShowChip = function(name){
+    ['default','pricing','edit','contact'].forEach(t => {
+      const p = document.getElementById('fbs-panel-body-' + t);
+      if (p) p.classList.toggle('hidden', t !== name);
+    });
+  };
+  window.fbsSetToggle = function(which){
+    const beforeBtn = document.getElementById('fbs-toggle-before');
+    const afterBtn = document.getElementById('fbs-toggle-after');
+    const beforePanel = document.getElementById('fbs-toggle-before-panel');
+    const afterPanel = document.getElementById('fbs-toggle-after-panel');
+    const activeStyle = 'background:linear-gradient(135deg,#c81e78,#7a1f5c); border-color:transparent; color:#fff;';
+    if (which === 'before') {
+      beforePanel.classList.add('fbs-active'); afterPanel.classList.remove('fbs-active');
+      beforeBtn.setAttribute('style', activeStyle); beforeBtn.classList.remove('text-white/70','border-white/25');
+      afterBtn.setAttribute('style',''); afterBtn.classList.add('text-white/70','border-white/25');
+    } else {
+      afterPanel.classList.add('fbs-active'); beforePanel.classList.remove('fbs-active');
+      afterBtn.setAttribute('style', activeStyle); afterBtn.classList.remove('text-white/70','border-white/25');
+      beforeBtn.setAttribute('style',''); beforeBtn.classList.add('text-white/70','border-white/25');
+    }
+  };
+  window.fbsToggleAccordion = function(btn){
+    const row = btn.closest('[data-fbs-accordion]');
+    if (row) row.classList.toggle('fbs-open');
+  };
+</script>
+</body>
+</html>
